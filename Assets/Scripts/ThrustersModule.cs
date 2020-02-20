@@ -46,6 +46,7 @@ public class ThrustersModule : MonoBehaviour
 
 	[SerializeField] float _speedLimit		= 100.0f;
 	[SerializeField] float _rotationLimit	= 1.0f;
+	[SerializeField] float _idleShaking		= .1f;
 
 	[Space]
 
@@ -241,10 +242,8 @@ public class ThrustersModule : MonoBehaviour
 	/// </summary>
 	private void UpdateShaking()
 	{
-		float speed = Speed;
-		float alpha = speed / _speedLimit;
-
-		ShakePower = alpha;
+		float speed = NextForce.magnitude;
+		ShakePower = speed + Speed * _idleShaking;
 	}
 
 	#endregion
@@ -316,8 +315,24 @@ public class ThrustersModule : MonoBehaviour
 		set
 		{
 			value = Mathf.Clamp01(value);
-
 			_cameraShake.Power = value;
+		}
+	}
+
+	/// <summary>
+	/// The power and strenght of the camera shake.
+	/// </summary>
+	public float ShakePowerAndStrength 
+	{
+		get
+		{
+			return _cameraShake.Power;
+		}
+		set
+		{
+			value = Mathf.Clamp01(value);
+			ShakePower = value;
+
 			_cameraShake.Amount = Mathf.Lerp(1.0f, .25f, value);
 			_cameraShake.Strength = Mathf.Lerp(0.5f, 50f, value);
 		}

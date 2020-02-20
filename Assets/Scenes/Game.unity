@@ -1598,8 +1598,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1483fed566fb424e94bdf9e9697f5e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shakeAmount: 0.25
-  _shakeStrength: 50
+  _shakeAmount: 0.1
+  _shakeStrength: 10
   _power: 0
   _offset: {x: 0, y: 0, z: 0}
   _offsetOnX: 1
@@ -4390,6 +4390,11 @@ PrefabInstance:
       propertyPath: _velocitySlider
       value: 
       objectReference: {fileID: 846305898}
+    - target: {fileID: 6860590813794970582, guid: eaf2a9efd4285304a9cea53740fcd061,
+        type: 3}
+      propertyPath: _idleShaking
+      value: 0.001
+      objectReference: {fileID: 0}
     - target: {fileID: 6860590813794970587, guid: eaf2a9efd4285304a9cea53740fcd061,
         type: 3}
       propertyPath: _countdownTick

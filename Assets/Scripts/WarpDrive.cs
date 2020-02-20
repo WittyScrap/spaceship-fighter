@@ -526,6 +526,9 @@ public class WarpDrive : MonoBehaviour
 		{
 			WarpTunnelFade = 1 - alpha;
 
+			Spaceship.Thrusters.ShakePowerAndStrength = Mathf.Lerp(allocatedTime, 1, alpha);
+			Spaceship.Thrusters.ShakePowerAndStrength = Mathf.Lerp(allocatedTime, 1, alpha);
+
 			// All done, hold until the next frame.
 			await Await.NextUpdate();
 		}
@@ -616,8 +619,8 @@ public class WarpDrive : MonoBehaviour
 		{
 			WarpTunnelFade = alpha;
 
-			Spaceship.Thrusters.ShakePower = Mathf.Lerp(1, allocatedTime, alpha);
-			Spaceship.Thrusters.ThrustPower = Mathf.Lerp(1, allocatedTime, alpha);
+			Spaceship.Thrusters.ShakePowerAndStrength = Mathf.Lerp(1, allocatedTime, alpha);
+			Spaceship.Thrusters.ShakePowerAndStrength = Mathf.Lerp(1, allocatedTime, alpha);
 
 			// All done, hold until the next frame.
 			await Await.NextUpdate();

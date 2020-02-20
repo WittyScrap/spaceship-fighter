@@ -98,7 +98,7 @@ public class PlayerUI : MonoBehaviour
 	/// </summary>
 	private void _warpDrive_OnExitingHyperspace(object sender, System.EventArgs e)
 	{
-	//	_countdownTick.text = "jump completed";
+		_countdownTick.text = "... beginning next phase ...";
 	}
 
 	/// <summary>
