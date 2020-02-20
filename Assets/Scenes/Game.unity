@@ -2237,7 +2237,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 658, y: 278}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 32, y: 32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1007841550
@@ -4395,5 +4395,10 @@ PrefabInstance:
       propertyPath: _countdownTick
       value: 
       objectReference: {fileID: 1102516270}
+    - target: {fileID: 6860590814072854379, guid: eaf2a9efd4285304a9cea53740fcd061,
+        type: 3}
+      propertyPath: m_VelocityScale
+      value: 0.75
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eaf2a9efd4285304a9cea53740fcd061, type: 3}

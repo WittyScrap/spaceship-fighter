@@ -197,7 +197,7 @@ public class WarpDrive : MonoBehaviour
 	private float WarpTunnelFade {
 		set
 		{
-			WarpTunnelMaterial.SetFloat("_Cutoff", value);
+			WarpTunnelMaterial.SetFloat("_Cutoff", 1 - value);
 			_warpTunnelFlare.brightness = Utilities.InverseCircleInterpolate(1 - value) * _warpFlareIntensity;
 		}
 	}

@@ -7,16 +7,18 @@
 
 			_Highlight		("Highlights", Color)				 = (1, 1, 1, 0)
 			_Peaks			("Peaks", Color)					 = (0, 0, 0.5, 0)
+			_Flash			("Flash", Color)					 = (1, 1, 1, 0)
 
 			_Detail			("Detail", Range(1, 32))			 = 4
 			_PeakAmount		("Peak amount", Range(0, 1))		 = 0.5
 
 			_Speed			("Scroll speed", Float)				 = 1
-			_Cutoff			("Cutoff", Range(0, 2))				 = 0
+			_Cutoff			("Cutoff", Range(0, 1))				 = 0
 			_Torque			("Torque", Float)					 = 1
 
 			_Power			("Power", Float)					 = 1.5
 			_PeakHeight		("Peak height", Float)				 = 10
+			_FlashSplit		("Flash split", Range(0, 1))		 = .75
     }
     SubShader 
 	{
@@ -65,10 +67,12 @@
 
 		float4 _Highlight;
 		float4 _Peaks;
+		float4 _Flash;
 		float  _PeakAmount;
 		float  _Cutoff;
 		float  _Power;
 		float  _Torque;
+		float  _FlashSplit;
 
         void surf (Input IN, inout SurfaceOutput o) 
 		{
@@ -83,10 +87,13 @@
 			float2 uv = float2(u, v);
 
             half4 map = saturate(tex2D (_MainTex, uv) * _Power);
-			clip((1 - _Cutoff) - 1);
+			clip(_Cutoff - _FlashSplit);
 
 			map = saturate(map + _PeakAmount);
 			half4 col = lerp(saturate(_Highlight), saturate(_Peaks), map);
+			half alpha = (_Cutoff - _FlashSplit) / (1 - _FlashSplit);
+
+			col = lerp(_Flash, col, alpha);
 
             o.Albedo = col.rgb;
         }
