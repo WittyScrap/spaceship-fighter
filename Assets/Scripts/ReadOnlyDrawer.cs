@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+
+#if UNITY_EDITOR
 /// <summary>
 /// Property drawer for read-only field.
 /// </summary>
@@ -20,3 +22,4 @@ public class ReadOnlyDrawer : UnityEditor.PropertyDrawer
 		GUI.enabled = true;
 	}
 }
+#endif
