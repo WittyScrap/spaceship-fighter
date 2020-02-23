@@ -51,6 +51,12 @@ public class Planet : MonoBehaviour
 	private Material _atmosphereMaterial = null;
 
 	/// <summary>
+	/// Whether or not this planet should generate an atmosphere layer.
+	/// </summary>
+	[SerializeField]
+	private bool _hasAtmosphere = true;
+
+	/// <summary>
 	/// A constant reference to the sun light's transform.
 	/// </summary>
 	[SerializeField, Space, Header("Atmospheric data"), Space]
@@ -63,7 +69,7 @@ public class Planet : MonoBehaviour
 	private float _hdrExposure = 0.8f;
 
 	/// <summary>
-	/// The wawe length of the sun light.
+	/// The wave length of the sun light.
 	/// </summary>
 	[SerializeField]
 	private Vector3 _waveLength = new Vector3(0.65f, 0.57f, 0.475f);
@@ -198,6 +204,14 @@ public class Planet : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Whether or not this planet should generate an atmosphere.
+	/// </summary>
+	public bool HasAtmosphere {
+		get => _hasAtmosphere;
+		set => _hasAtmosphere = value;
+	}
+
+	/// <summary>
 	/// Sets the sun's transform.
 	/// </summary>
 	/// <param name="sun">The transform to use for the sun.</param>
@@ -233,6 +247,8 @@ public class Planet : MonoBehaviour
 		SphereCollider planetCollider = gameObject.AddComponent<SphereCollider>();
 		planetCollider.radius = _radius;
 		planetCollider.isTrigger = true;
+
+		atmosphere.SetActive(_hasAtmosphere);
 	}
 
 	/// <summary>
