@@ -257,10 +257,10 @@ public class Planet : MonoBehaviour
 		_groundMaterial.SetVector("_Seed", new Vector4((float)seeder.NextDouble() * 100f, (float)seeder.NextDouble() * 100f, -(float)seeder.NextDouble() * 100f, 0));
 
 		_groundMaterial.SetFloat("_NoiseScaleA", (float)seeder.NextDouble() * 5f);
-		_groundMaterial.SetFloat("_NoiseScaleB", (float)seeder.NextDouble() * 5f);
-		_groundMaterial.SetFloat("_NoiseScaleC", (float)seeder.NextDouble() * 10f);
+		_groundMaterial.SetFloat("_NoiseScaleB", (float)seeder.NextDouble() * 10f);
+		_groundMaterial.SetFloat("_NoiseScaleC", (float)seeder.NextDouble() * 25f);
 		_groundMaterial.SetFloat("_NoiseScaleD", (float)seeder.NextDouble() * 50f);
-		_groundMaterial.SetFloat("_NoiseScaleE", (float)seeder.NextDouble() * 100f);
+		_groundMaterial.SetFloat("_NoiseScaleE", (float)seeder.NextDouble() * 500f);
 
 		_groundMaterial.SetColor("_LandColor", new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f)));
 		_groundMaterial.SetColor("_Mountain", new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f)));
