@@ -156,8 +156,8 @@ Shader "Atmosphere/GroundFromSpace"
 				float3 position = IN.normal;
 				position += _Seed.xyz;
 
-				float seedStarter = saturate(perlin3D(position * _NoiseScaleA) - perlin3D(position * _NoiseScaleB) + perlin3D(position * _NoiseScaleC));
-				float landValue = perlin(half2(seedStarter * _NoiseScaleA, seedStarter + _Seed.x * _NoiseScaleA)) - perlin3D(position * _NoiseScaleD) + perlin3D(position * _NoiseScaleE);
+				float seedStarter = saturate(noised(position * _NoiseScaleA) - noised(position * _NoiseScaleB) + noised(position * _NoiseScaleC));
+				float landValue = perlin(half2(seedStarter * _NoiseScaleA, seedStarter + _Seed.x * _NoiseScaleA)) - noised(position * _NoiseScaleD) + noised(position * _NoiseScaleE);
 
 				float3 normal = normalize(IN.normalDir);
 				float3 view = normalize(_WorldSpaceCameraPos - IN.worldPos.xyz);
