@@ -1217,7 +1217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sourceCamera: {fileID: 469754289}
-  _scaleFactor: 0.00001
+  _scaleFactor: 1e-10
 --- !u!20 &447817257
 Camera:
   m_ObjectHideFlags: 0
@@ -2290,7 +2290,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 1033995842}
   _camera: {fileID: 2056772711}
-  _distance: 10000
+  _distance: 1e+15
 --- !u!4 &1033995842 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6860590813794970577, guid: eaf2a9efd4285304a9cea53740fcd061,

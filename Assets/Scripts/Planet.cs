@@ -36,7 +36,7 @@ public class Planet : MonoBehaviour
 	/// The seed to render the planet.
 	/// </summary>
 	[SerializeField]
-	private float _seed = 0;
+	private int _seed = 0;
 
 	/// <summary>
 	/// The material to render the planet with.
@@ -192,7 +192,7 @@ public class Planet : MonoBehaviour
 	/// <summary>
 	/// The seed to render the planet with.
 	/// </summary>
-	public float Seed {
+	public int Seed {
 		get => _seed;
 		set => _seed = value;
 	}
@@ -252,11 +252,21 @@ public class Planet : MonoBehaviour
 		UpdateMaterial(_groundMaterial);
 		UpdateMaterial(_atmosphereMaterial);
 
-		_groundMaterial.SetVector("_Seed", new Vector4(6.2f, _seed, -1.09f, 0));
+		System.Random seeder = new System.Random(_seed);
 
-		// Randomise land colours
-		_groundMaterial.SetColor("_LandColor", new Color(Random.Range(0, 0.5f), Random.Range(0, 0.5f), Random.Range(0, 0.5f)));
-		_groundMaterial.SetColor("_Mountain", new Color(Random.Range(0, 0.5f), Random.Range(0, 0.5f), Random.Range(0, 0.5f)));
+		_groundMaterial.SetVector("_Seed", new Vector4((float)seeder.NextDouble() * 100f, (float)seeder.NextDouble() * 100f, -(float)seeder.NextDouble() * 100f, 0));
+
+		_groundMaterial.SetFloat("_NoiseScaleA", (float)seeder.NextDouble() * 5f);
+		_groundMaterial.SetFloat("_NoiseScaleB", (float)seeder.NextDouble() * 5f);
+		_groundMaterial.SetFloat("_NoiseScaleC", (float)seeder.NextDouble() * 10f);
+		_groundMaterial.SetFloat("_NoiseScaleD", (float)seeder.NextDouble() * 50f);
+		_groundMaterial.SetFloat("_NoiseScaleE", (float)seeder.NextDouble() * 100f);
+
+		_groundMaterial.SetColor("_LandColor", new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f)));
+		_groundMaterial.SetColor("_Mountain", new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f)));
+		_groundMaterial.SetColor("_SeaColor", new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f)));
+
+		_groundMaterial.SetFloat("_SeaLevel", (float)seeder.NextDouble());
 	}
 
 	/// <summary>

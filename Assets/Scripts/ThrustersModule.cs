@@ -320,7 +320,7 @@ public class ThrustersModule : MonoBehaviour
 	}
 
 	/// <summary>
-	/// The power and strenght of the camera shake.
+	/// The power and strength of the camera shake.
 	/// </summary>
 	public float ShakePowerAndStrength 
 	{
