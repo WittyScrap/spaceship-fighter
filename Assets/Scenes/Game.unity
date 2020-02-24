@@ -3535,6 +3535,7 @@ MonoBehaviour:
   _maxPlanetSize: 5
   _minMoonSize: 0.1
   _maxMoonSize: 0.2
+  _ringChance: 0.5
   _detail: 6
   _planetGroundMaterial: {fileID: 2100000, guid: 2cc6927673615bb48b8a3f33637d4a14,
     type: 2}
