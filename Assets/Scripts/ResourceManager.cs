@@ -12,6 +12,7 @@ public class ResourceManager : MonoBehaviour
     [Space, Header("Planetary Rings"), Space]
 
     [SerializeField] private int _resolution = 64;
+    [SerializeField] private int _steps = 3;
 
     [Space]
 
@@ -21,12 +22,12 @@ public class ResourceManager : MonoBehaviour
     /// <summary>
     /// Simple rocky rings.
     /// </summary>
-    public Texture2D PlainRings => FromGradient(_plainRings, _resolution);
+    public Texture2D PlainRings => FromGradient(_plainRings, _resolution, _steps);
 
     /// <summary>
     /// Icy rings, will contain a lot of water and resources.
     /// </summary>
-    public Texture2D IcyRings => FromGradient(_icyRings, _resolution);
+    public Texture2D IcyRings => FromGradient(_icyRings, _resolution, _steps);
 
     #region Private
 
@@ -35,13 +36,16 @@ public class ResourceManager : MonoBehaviour
         _instance = this;
     }
 
-    private Texture2D FromGradient(Gradient source, int horizontalResolution)
+    private Texture2D FromGradient(Gradient source, int horizontalResolution, int repeats)
     {
-        Texture2D o = new Texture2D(horizontalResolution, 1);
+        Texture2D o = new Texture2D(horizontalResolution * repeats, 1);
 
-        for (int i = 0; i < horizontalResolution; ++i)
+        for (int step = 0; step < repeats; ++step)
         {
-            o.SetPixel(i, 0, source.Evaluate((float)i / horizontalResolution));
+            for (int i = horizontalResolution * step, t = 0; i < horizontalResolution * (step + 1); ++i, ++t)
+            {
+                o.SetPixel(i, 0, source.Evaluate((float)t / horizontalResolution));
+            }
         }
 
         o.Apply();

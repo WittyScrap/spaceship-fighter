@@ -3246,8 +3246,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f8e4d5b2998584ea9f01ebc6ca1a78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _plainRings: {fileID: 0}
-  _icyRings: {fileID: 0}
+  _resolution: 64
+  _steps: 3
+  _plainRings:
+    serializedVersion: 2
+    key0: {r: 0, g: 0, b: 0, a: 1}
+    key1: {r: 0.5471698, g: 0.31560707, b: 0, a: 1}
+    key2: {r: 0.6509434, g: 0.39600992, b: 0.076762185, a: 0.8156863}
+    key3: {r: 0, g: 0, b: 0, a: 0.8156863}
+    key4: {r: 0.9056604, g: 0.6851875, b: 0.2947668, a: 0.8156863}
+    key5: {r: 0.3584906, g: 0.24519406, b: 0.018600928, a: 0.8156863}
+    key6: {r: 0.6431373, g: 0.4807978, b: 0.14901958, a: 0.8156863}
+    key7: {r: 0, g: 0, b: 0, a: 0.8156863}
+    ctime0: 0
+    ctime1: 13878
+    ctime2: 16962
+    ctime3: 30455
+    ctime4: 40478
+    ctime5: 52428
+    ctime6: 58789
+    ctime7: 65535
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 8
+    m_NumAlphaKeys: 2
+  _icyRings:
+    serializedVersion: 2
+    key0: {r: 0.2509804, g: 0.47843137, b: 0.05490196, a: 0.8156863}
+    key1: {r: 0.2509804, g: 0.47843137, b: 0.05490196, a: 0.8156863}
+    key2: {r: 0.2509804, g: 0.47843137, b: 0.05490196, a: 0.8156863}
+    key3: {r: 0.2509804, g: 0.47843137, b: 0.05490196, a: 0.8156863}
+    key4: {r: 0.2509804, g: 0.47843137, b: 0.05490196, a: 0.8156863}
+    key5: {r: 0.2509804, g: 0.47843137, b: 0.05490196, a: 0.8156863}
+    key6: {r: 0.2509804, g: 0.47843137, b: 0.05490196, a: 0.8156863}
+    key7: {r: 0.2509804, g: 0.47843137, b: 0.05490196, a: 0.8156863}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
 --- !u!4 &1470413770
 Transform:
   m_ObjectHideFlags: 0
@@ -3917,54 +3975,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1857417895}
   m_CullTransparentMesh: 0
---- !u!1 &1960257268
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1960257270}
-  - component: {fileID: 1960257269}
-  m_Layer: 0
-  m_Name: RingTest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1960257269
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960257268}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2370fa9f0b27f34297c61163bdf829a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _innerRadius: 10
-  _outerRadius: 20
-  _resolution: 256
-  _generateOnStart: 1
-  _ringType: 0
---- !u!4 &1960257270
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960257268}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 28.25}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1970612485
 GameObject:
   m_ObjectHideFlags: 0

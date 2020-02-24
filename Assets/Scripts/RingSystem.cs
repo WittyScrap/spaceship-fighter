@@ -31,6 +31,8 @@ public class RingSystem : MonoBehaviour
     private MeshFilter _meshFilter;
     private Mesh _generatedMesh;
     private AsyncMesh _asyncMesh;
+    private Material _ringMaterial;
+    private Texture2D _ringTexture;
 
     /// <summary>
     /// The radius at which the planetary rings begin (starting from the planet).
@@ -50,6 +52,7 @@ public class RingSystem : MonoBehaviour
         _meshFilter = gameObject.AddComponent<MeshFilter>();
         _meshRenderer = gameObject.AddComponent<MeshRenderer>();
         _generatedMesh = new Mesh();
+        _ringMaterial = new Material(Shader.Find("Unlit/PlanetRings"));
     }
 
     private Vector3 GetVertex(int v, float radius)
@@ -68,12 +71,23 @@ public class RingSystem : MonoBehaviour
         return (inner, outer);
     }
 
+    private void AppendTriangle(List<int> triangles, int verticesCount)
+	{
+		triangles.Add(verticesCount - 2);
+		triangles.Add(verticesCount - 1);
+		triangles.Add(verticesCount);
+		triangles.Add(verticesCount - 1);
+		triangles.Add(verticesCount + 1);
+		triangles.Add(verticesCount);
+	}
+
     private void TaskGenerateMesh()
 	{
 		_asyncMesh = new AsyncMesh();
 
         List<Vector3> vertices = new List<Vector3>();
         List<int> triangles = new List<int>();
+        List<Vector2> uvs = new List<Vector2>();
 
         for (int v = 0; v < _resolution; ++v)
         {
@@ -81,27 +95,31 @@ public class RingSystem : MonoBehaviour
 
             if (vertices.Count > 0)
             {
-                triangles.Add(vertices.Count - 2);
-                triangles.Add(vertices.Count - 1);
-                triangles.Add(vertices.Count);
-                triangles.Add(vertices.Count - 1);
-                triangles.Add(vertices.Count + 1);
-                triangles.Add(vertices.Count);
+                AppendTriangle(triangles, vertices.Count);
 			}
 
 			vertices.Add(current.inner);
 			vertices.Add(current.outer);
+
+            float uv_v = (float)v / (_resolution + 1);
+
+            uvs.Add(new Vector2(0, uv_v));
+            uvs.Add(new Vector2(1, uv_v));
 		}
 
-		triangles.Add(vertices.Count - 2);
-		triangles.Add(vertices.Count - 1);
-		triangles.Add(0);
-		triangles.Add(vertices.Count - 1);
-		triangles.Add(1);
-		triangles.Add(0);
+		(Vector3 inner, Vector3 outer) last = GetRingVertices(0);
+
+        AppendTriangle(triangles, vertices.Count);
+
+		vertices.Add(last.inner);
+		vertices.Add(last.outer);
+
+		uvs.Add(new Vector2(0, 1));
+		uvs.Add(new Vector2(1, 1));
 
 		_asyncMesh.Vertices = vertices.ToArray();
         _asyncMesh.Triangles = triangles.ToArray();
+        _asyncMesh.UVs = uvs.ToArray();
 	}
 
     private async Task GenerateMesh()
@@ -118,6 +136,21 @@ public class RingSystem : MonoBehaviour
 		_generatedMesh.RecalculateTangents();
 
 		_meshFilter.sharedMesh = _generatedMesh;
+        _meshRenderer.sharedMaterial = _ringMaterial;
+
+        switch (_ringType)
+        {
+            case RockType.RT_Rocky:
+            case RockType.RT_Metallic:
+                _ringTexture = ResourceManager.GetManager().PlainRings;
+                break;
+
+            case RockType.RT_Icy:
+                _ringTexture = ResourceManager.GetManager().IcyRings;
+                break;
+        }
+
+        _ringMaterial.mainTexture = _ringTexture;
     }
 
     #endregion
