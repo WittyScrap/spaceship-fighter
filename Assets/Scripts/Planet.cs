@@ -99,6 +99,12 @@ public class Planet : MonoBehaviour
 	private float _g = -0.990f;
 
 	/// <summary>
+	/// Whether or not this planet should have rings.
+	/// </summary>
+	[SerializeField]
+	private bool _hasRings;
+
+	/// <summary>
 	/// Difference between inner and outer radius, must be 2.5%.
 	/// </summary>
 	[ReadOnly, SerializeField, Space]
@@ -185,6 +191,14 @@ public class Planet : MonoBehaviour
 	public int Steps {
 		get => _steps;
 		set => _steps = value;
+	}
+
+	/// <summary>
+	/// Whether or not this planet should have rings.
+	/// </summary>
+	public bool HasRings {
+		get => _hasRings;
+		set => _hasRings = value;
 	}
 
 	/// <summary>
@@ -352,6 +366,7 @@ public class Planet : MonoBehaviour
 		AsyncMesh asyncGround = _groundMesh;
 		AsyncMesh asyncAtmosphere = _atmosphereMesh;
 
+		Task ringsTask = MakeRings();
 		Task groundTask = Task.Run(() => MakeSpheroid(asyncGround, steps, _radius));
 		Task atmosphereTask = Task.Run(() => MakeSpheroid(asyncAtmosphere, steps, OuterRadius));
 
@@ -359,6 +374,28 @@ public class Planet : MonoBehaviour
 
 		AsyncMesh.Apply(asyncGround, _groundMesh);
 		AsyncMesh.Apply(asyncAtmosphere, _atmosphereMesh);
+	}
+
+	/// <summary>
+	/// Generates planetary rings.
+	/// </summary>
+	/// <returns></returns>
+	private async Task MakeRings()
+	{
+		if (_hasRings)
+		{
+			GameObject ringsObject = new GameObject("Rings");
+			ringsObject.transform.SetParent(_groundRenderer.transform);
+			ringsObject.transform.up = transform.up;
+			ringsObject.transform.localPosition = Vector3.zero;
+			ringsObject.layer = LayerMask.NameToLayer("Backdrop");
+
+			RingSystem rings = ringsObject.AddComponent<RingSystem>();
+			rings.InnerRadius = OuterRadius + 0.1f;
+			rings.OuterRadius = rings.InnerRadius * 1.5f;
+
+			await rings.Generate();
+		}
 	}
 
 	/// <summary>
