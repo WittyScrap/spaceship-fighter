@@ -278,8 +278,8 @@ public class Planet : MonoBehaviour
 		_groundMaterial.SetFloat("_NoiseScaleA", (float)seeder.NextDouble() * 5f);
 		_groundMaterial.SetFloat("_NoiseScaleB", (float)seeder.NextDouble() * 10f);
 		_groundMaterial.SetFloat("_NoiseScaleC", (float)seeder.NextDouble() * 25f);
-		_groundMaterial.SetFloat("_NoiseScaleD", (float)seeder.NextDouble() * 50f);
-		_groundMaterial.SetFloat("_NoiseScaleE", (float)seeder.NextDouble() * 500f);
+		_groundMaterial.SetFloat("_NoiseScaleD", 25f  + (float)seeder.NextDouble() * 25f);
+		_groundMaterial.SetFloat("_NoiseScaleE", 250f + (float)seeder.NextDouble() * 250f);
 
 		_groundMaterial.SetColor("_LandColor", new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f)));
 		_groundMaterial.SetColor("_Mountain", new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f)));
@@ -357,19 +357,8 @@ public class Planet : MonoBehaviour
 
 		await Task.WhenAll(groundTask, atmosphereTask);
 
-		MapMesh(asyncGround, _groundMesh);
-		MapMesh(asyncAtmosphere, _atmosphereMesh);
-	}
-
-	/// <summary>
-	/// Maps an asyncmesh into a renderable mesh.
-	/// </summary>
-	private void MapMesh(AsyncMesh source, Mesh destination)
-	{
-		destination.vertices = source.Vertices;
-		destination.normals = source.Normals;
-		destination.triangles = source.Triangles;
-		destination.uv = source.UVs;
+		AsyncMesh.Apply(asyncGround, _groundMesh);
+		AsyncMesh.Apply(asyncAtmosphere, _atmosphereMesh);
 	}
 
 	/// <summary>

@@ -194,7 +194,7 @@ Shader "Atmosphere/GroundFromSpace"
 				col = 1.0 - exp(col * -fHdrExposure); //Adjust color from HDR
 				col = saturate(col);
 
-				float light = IN.lightVal;
+				float light = IN.lightVal * .5f;
 				float3 final = lerp(light, col, _EnableAtmosphere);
 
 				tex *= final.b;

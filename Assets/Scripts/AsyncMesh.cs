@@ -26,4 +26,23 @@ public class AsyncMesh
 
 		return asyncMesh;
 	}
+
+	/// <summary>
+	/// Maps an asyncmesh into a renderable mesh.
+	/// </summary>
+	public static void Apply(AsyncMesh source, Mesh destination)
+	{
+		destination.vertices = source.Vertices;
+		destination.normals = source.Normals;
+		destination.triangles = source.Triangles;
+		destination.uv = source.UVs;
+	}
+
+	/// <summary>
+	/// Creates a completely empty asynchronous mesh.
+	/// </summary>
+	public AsyncMesh()
+	{
+
+	}
 }
