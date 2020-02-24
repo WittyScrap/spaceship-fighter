@@ -23,6 +23,7 @@ Shader "Atmosphere/GroundFromSpace"
 		_Shininess ("Water reflectivity", Float) = 10
 
 		[Toggle] _DebugView ("Debug", Int) = 0
+		[Toggle] _EnableAtmosphere ("Atmosphere", Int) = 1
 	}
 	SubShader 
 	{
@@ -64,6 +65,7 @@ Shader "Atmosphere/GroundFromSpace"
 				float4 worldPos : TEXCOORD3;
     			float3 c0		: COLOR0;
     			float3 c1		: COLOR1;
+				float  lightVal : TEXCOORD4;
 			};
 			
 			float scale(float fCos)
@@ -131,6 +133,7 @@ Shader "Atmosphere/GroundFromSpace"
     			OUT.c1 = v3Attenuate;
 				OUT.worldPos = mul(unity_ObjectToWorld, v.vertex);
 				OUT.normalDir = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject).xyz);
+				OUT.lightVal = max(0, dot(UnityObjectToWorldNormal(v.normal), _WorldSpaceLightPos0.xyz));
     			
     			return OUT;
 			}
@@ -150,6 +153,7 @@ Shader "Atmosphere/GroundFromSpace"
 			float _NoiseScaleE;
 
 			float _Shininess;
+			int _EnableAtmosphere;
 
 			half3 texel(v2f IN)
 			{
@@ -187,12 +191,15 @@ Shader "Atmosphere/GroundFromSpace"
 				half3 tex = texel(IN);
 
 				float3 col = IN.c0 + 0.25 * IN.c1;
+				col = 1.0 - exp(col * -fHdrExposure); //Adjust color from HDR
+				col = saturate(col);
 
-				//Adjust color from HDR
-				col = 1.0 - exp(col * -fHdrExposure);
-				tex *= col.b;
+				float light = IN.lightVal;
+				float3 final = lerp(light, col, _EnableAtmosphere);
 
-				return half4(tex + col, 1.0);
+				tex *= final.b;
+
+				return half4(tex + final, 1.0);
 			}
 			
 			ENDCG

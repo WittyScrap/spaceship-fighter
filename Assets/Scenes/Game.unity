@@ -4380,6 +4380,11 @@ PrefabInstance:
       propertyPath: _buildupSlider
       value: 
       objectReference: {fileID: 1857417897}
+    - target: {fileID: 6860590813794970581, guid: eaf2a9efd4285304a9cea53740fcd061,
+        type: 3}
+      propertyPath: _warpDuration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6860590813794970582, guid: eaf2a9efd4285304a9cea53740fcd061,
         type: 3}
       propertyPath: _cameraShake

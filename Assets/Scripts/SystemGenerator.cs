@@ -257,6 +257,7 @@ public class SystemGenerator : MonoBehaviour
 		planetComponent.SetSun(_sun);
 		planetComponent.Rotation = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
 		planetComponent.Seed = seeder.Next();
+		planetComponent.HasAtmosphere = hasAtmosphere;
 
 		await planetComponent.Load();
 

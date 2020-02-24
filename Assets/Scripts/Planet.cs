@@ -208,7 +208,10 @@ public class Planet : MonoBehaviour
 	/// </summary>
 	public bool HasAtmosphere {
 		get => _hasAtmosphere;
-		set => _hasAtmosphere = value;
+		set
+		{
+			_hasAtmosphere = value;
+		}
 	}
 
 	/// <summary>
@@ -283,6 +286,7 @@ public class Planet : MonoBehaviour
 		_groundMaterial.SetColor("_SeaColor", new Color(Random.Range(0, 1.0f), Random.Range(0, 1.0f), Random.Range(0, 1.0f)));
 
 		_groundMaterial.SetFloat("_SeaLevel", (float)seeder.NextDouble());
+		_groundMaterial.SetInt("_EnableAtmosphere", _hasAtmosphere ? 1 : 0);
 	}
 
 	/// <summary>
