@@ -207,6 +207,7 @@ public class SystemGenerator : MonoBehaviour
 				Random.Range(_minMoonsPerPlanet, _maxMoonsPerPlanet), 
 				_maxDistance, 
 				true,
+				true,
 				_minDistance
 			);
 		}
@@ -240,7 +241,7 @@ public class SystemGenerator : MonoBehaviour
 	/// <param name="moonsCount">The number of moons.</param>
 	/// <param name="maxDistance">The maximum distance around the parent transform the planet can generate in.</param>
 	/// <returns>An awaitable task</returns>
-	private async Task CreatePlanetAsync(SystemTree node, Transform parent, System.Random seeder, float radius, int moonsCount, float maxDistance, bool hasAtmosphere, float minDistance = 0)
+	private async Task CreatePlanetAsync(SystemTree node, Transform parent, System.Random seeder, float radius, int moonsCount, float maxDistance, bool hasAtmosphere, bool canHaveRings = true, float minDistance = 0)
 	{
 		GameObject nextPlanet = new GameObject("AutoPlanet");
 		nextPlanet.layer = LayerMask.NameToLayer("Backdrop");
@@ -264,7 +265,7 @@ public class SystemGenerator : MonoBehaviour
 		planetComponent.Rotation = new Vector3(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360));
 		planetComponent.Seed = seeder.Next();
 		planetComponent.HasAtmosphere = hasAtmosphere;
-		planetComponent.HasRings = seeder.NextDouble() > 1 - _ringChance ? true : false;
+		planetComponent.HasRings = canHaveRings && seeder.NextDouble() > (1 - _ringChance);
 
 		await planetComponent.Load();
 
@@ -282,6 +283,7 @@ public class SystemGenerator : MonoBehaviour
 				moonRadius,
 				0,
 				moonDistance,
+				false,
 				false,
 				moonDistance
 			);
