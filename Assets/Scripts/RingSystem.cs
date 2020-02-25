@@ -86,6 +86,7 @@ public class RingSystem : MonoBehaviour
 		_asyncMesh = new AsyncMesh();
 
         List<Vector3> vertices = new List<Vector3>();
+        List<Vector3> normals = new List<Vector3>();
         List<int> triangles = new List<int>();
         List<Vector2> uvs = new List<Vector2>();
 
@@ -105,6 +106,9 @@ public class RingSystem : MonoBehaviour
 
             uvs.Add(new Vector2(0, uv_v));
             uvs.Add(new Vector2(1, uv_v));
+
+            normals.Add(Vector2.up);
+            normals.Add(Vector2.up);
 		}
 
 		(Vector3 inner, Vector3 outer) last = GetRingVertices(0);
@@ -117,9 +121,13 @@ public class RingSystem : MonoBehaviour
 		uvs.Add(new Vector2(0, 1));
 		uvs.Add(new Vector2(1, 1));
 
+		normals.Add(Vector2.up);
+		normals.Add(Vector2.up);
+
 		_asyncMesh.Vertices = vertices.ToArray();
         _asyncMesh.Triangles = triangles.ToArray();
         _asyncMesh.UVs = uvs.ToArray();
+        _asyncMesh.Normals = normals.ToArray();
 	}
 
     private async Task GenerateMesh()
@@ -130,10 +138,6 @@ public class RingSystem : MonoBehaviour
     private void ApplyComponents()
     {
         AsyncMesh.Apply(_asyncMesh, _generatedMesh);
-
-		_generatedMesh.RecalculateBounds();
-		_generatedMesh.RecalculateNormals();
-		_generatedMesh.RecalculateTangents();
 
 		_meshFilter.sharedMesh = _generatedMesh;
         _meshRenderer.sharedMaterial = _ringMaterial;
