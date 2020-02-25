@@ -12,22 +12,30 @@ public class ResourceManager : MonoBehaviour
     [Space, Header("Planetary Rings"), Space]
 
     [SerializeField] private int _resolution = 64;
-    [SerializeField] private int _steps = 3;
 
     [Space]
 
     [SerializeField] private Gradient _plainRings;
     [SerializeField] private Gradient _icyRings;
 
+    [Space]
+
+    [SerializeField] private Material _ringsMaterial;
+
     /// <summary>
     /// Simple rocky rings.
     /// </summary>
-    public Texture2D PlainRings => FromGradient(_plainRings, _resolution, _steps);
+    public Texture2D PlainRings => FromGradient(_plainRings, _resolution);
 
     /// <summary>
     /// Icy rings, will contain a lot of water and resources.
     /// </summary>
-    public Texture2D IcyRings => FromGradient(_icyRings, _resolution, _steps);
+    public Texture2D IcyRings => FromGradient(_icyRings, _resolution);
+
+    /// <summary>
+    /// The material to be used to render rings.
+    /// </summary>
+    public Material RingsMaterial => _ringsMaterial;
 
     #region Private
 
@@ -36,17 +44,35 @@ public class ResourceManager : MonoBehaviour
         _instance = this;
     }
 
-    private Texture2D FromGradient(Gradient source, int horizontalResolution, int repeats)
+    private int Chunk()
     {
-        Texture2D o = new Texture2D(horizontalResolution * repeats, 1);
+        return Random.Range(1, 5);
+    }
 
-        for (int step = 0; step < repeats; ++step)
-        {
-            for (int i = horizontalResolution * step, t = 0; i < horizontalResolution * (step + 1); ++i, ++t)
+    private Texture2D FromGradient(Gradient source, int horizontalResolution)
+    {
+        Texture2D o = new Texture2D(horizontalResolution, 1);
+
+        int chunkSize = Chunk();
+        int chunkValue = 0;
+        int chunk = 0;
+
+		for (int i = 0; i < horizontalResolution; ++i)
+		{
+            chunk++;
+
+            if (chunk >= chunkSize)
             {
-                o.SetPixel(i, 0, source.Evaluate((float)t / horizontalResolution));
-            }
-        }
+                chunkSize = Chunk();
+                chunk = 0;
+				chunkValue = (chunkValue + 1) % source.colorKeys.Length;
+			}
+
+            Color value = source.colorKeys[chunkValue].color;
+            value.a = (value.r + value.g + value.b) / 3;
+
+			o.SetPixel(i, 0, value);
+		}
 
         o.Apply();
         return o;

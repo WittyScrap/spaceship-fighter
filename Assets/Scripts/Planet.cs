@@ -391,8 +391,8 @@ public class Planet : MonoBehaviour
 			ringsObject.layer = LayerMask.NameToLayer("Backdrop");
 
 			RingSystem rings = ringsObject.AddComponent<RingSystem>();
-			rings.InnerRadius = OuterRadius + 0.1f;
-			rings.OuterRadius = rings.InnerRadius * 1.5f;
+			rings.InnerRadius = OuterRadius + Random.Range(1f, 2f);
+			rings.OuterRadius = rings.InnerRadius * Random.Range(1f, 1.5f);
 
 			await rings.Generate();
 		}

@@ -9847,6 +9847,7 @@ MonoBehaviour:
   _autoHeadlookOnLock: 1
   _speedLimit: 100
   _rotationLimit: 1
+  _idleShaking: 0.001
   _cameraShake: {fileID: 0}
   _speedLines: {fileID: 6860590813895112886}
   _forward: {fileID: 6860590814856565030}
@@ -9874,7 +9875,7 @@ MonoBehaviour:
   _warpCountdown: 5
   _warpLaunchTime: 1
   _warpDropTime: 1.5
-  _warpDuration: 15
+  _warpDuration: 5
   _jumpSplit: 0.75
   _dropSplit: 0.5
   _condenseJump: 1
@@ -19589,7 +19590,7 @@ ParticleSystemRenderer:
   m_MinParticleSize: 0
   m_MaxParticleSize: 0.05
   m_CameraVelocityScale: 0
-  m_VelocityScale: 1
+  m_VelocityScale: 0.75
   m_LengthScale: 2
   m_SortingFudge: 0
   m_NormalDirection: 1
@@ -121540,6 +121541,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 5b7009de88314294bbe4a3d612ee103e, type: 2}
+    - target: {fileID: -1504981713932161579, guid: 7c95c9cb75b33fa4fbc7a2f21cbf03ec,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 7c95c9cb75b33fa4fbc7a2f21cbf03ec,
         type: 3}
       propertyPath: m_Name

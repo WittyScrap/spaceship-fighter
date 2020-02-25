@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -52,7 +53,7 @@ public class RingSystem : MonoBehaviour
         _meshFilter = gameObject.AddComponent<MeshFilter>();
         _meshRenderer = gameObject.AddComponent<MeshRenderer>();
         _generatedMesh = new Mesh();
-        _ringMaterial = new Material(Shader.Find("Unlit/PlanetRings"));
+        _ringMaterial = new Material(ResourceManager.GetManager().RingsMaterial);
     }
 
     private Vector3 GetVertex(int v, float radius)
@@ -71,14 +72,63 @@ public class RingSystem : MonoBehaviour
         return (inner, outer);
     }
 
-    private void AppendTriangle(List<int> triangles, int verticesCount)
+    private void AppendTriangle(List<int> triangles, int verticesCount, bool reversed)
 	{
-		triangles.Add(verticesCount - 2);
-		triangles.Add(verticesCount - 1);
-		triangles.Add(verticesCount);
-		triangles.Add(verticesCount - 1);
-		triangles.Add(verticesCount + 1);
-		triangles.Add(verticesCount);
+        int[] newCoordinates = new int[]
+        {
+            verticesCount - 2,
+            verticesCount - 1,
+            verticesCount,
+            verticesCount - 1,
+            verticesCount + 1,
+            verticesCount
+        };
+
+        if (reversed)
+        {
+            triangles.AddRange(newCoordinates.Reverse());
+        }
+        else
+        {
+            triangles.AddRange(newCoordinates);
+        }
+	}
+
+    private void PopulateMeshData(List<Vector3> vertices, List<Vector3> normals, List<int> triangles, List<Vector2> uvs, bool reversed, Vector3 normal)
+	{
+		for (int v = 0; v < _resolution; ++v)
+		{
+			(Vector3 inner, Vector3 outer) current = GetRingVertices(v);
+
+			if (vertices.Count > 0)
+			{
+				AppendTriangle(triangles, vertices.Count, reversed);
+			}
+
+			vertices.Add(current.inner);
+			vertices.Add(current.outer);
+
+			float uv_v = (float)v / (_resolution + 1);
+
+			uvs.Add(new Vector2(0, uv_v));
+			uvs.Add(new Vector2(1, uv_v));
+
+			normals.Add(normal);
+			normals.Add(normal);
+		}
+
+		(Vector3 inner, Vector3 outer) last = GetRingVertices(0);
+
+		AppendTriangle(triangles, vertices.Count, reversed);
+
+		vertices.Add(last.inner);
+		vertices.Add(last.outer);
+
+		uvs.Add(new Vector2(0, 1));
+		uvs.Add(new Vector2(1, 1));
+
+		normals.Add(normal);
+		normals.Add(normal);
 	}
 
     private void TaskGenerateMesh()
@@ -90,39 +140,10 @@ public class RingSystem : MonoBehaviour
         List<int> triangles = new List<int>();
         List<Vector2> uvs = new List<Vector2>();
 
-        for (int v = 0; v < _resolution; ++v)
-        {
-            (Vector3 inner, Vector3 outer) current = GetRingVertices(v);
-
-            if (vertices.Count > 0)
-            {
-                AppendTriangle(triangles, vertices.Count);
-			}
-
-			vertices.Add(current.inner);
-			vertices.Add(current.outer);
-
-            float uv_v = (float)v / (_resolution + 1);
-
-            uvs.Add(new Vector2(0, uv_v));
-            uvs.Add(new Vector2(1, uv_v));
-
-            normals.Add(Vector2.up);
-            normals.Add(Vector2.up);
-		}
-
-		(Vector3 inner, Vector3 outer) last = GetRingVertices(0);
-
-        AppendTriangle(triangles, vertices.Count);
-
-		vertices.Add(last.inner);
-		vertices.Add(last.outer);
-
-		uvs.Add(new Vector2(0, 1));
-		uvs.Add(new Vector2(1, 1));
-
-		normals.Add(Vector2.up);
-		normals.Add(Vector2.up);
+		PopulateMeshData(vertices, normals, triangles, uvs, false, Vector3.up);
+		PopulateMeshData(vertices, normals, triangles, uvs, true, Vector3.down);
+		PopulateMeshData(vertices, normals, triangles, uvs, false, Vector3.down);
+		PopulateMeshData(vertices, normals, triangles, uvs, true, Vector3.up);
 
 		_asyncMesh.Vertices = vertices.ToArray();
         _asyncMesh.Triangles = triangles.ToArray();
