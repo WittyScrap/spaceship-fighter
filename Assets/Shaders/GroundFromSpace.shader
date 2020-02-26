@@ -206,4 +206,6 @@ Shader "Atmosphere/GroundFromSpace"
 
     	}
 	}
+
+	Fallback "VertexLit"
 }

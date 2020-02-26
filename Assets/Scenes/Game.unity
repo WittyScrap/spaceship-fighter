@@ -1250,11 +1250,11 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 2048
-  m_RenderingPath: 3
+  m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
+  m_HDR: 0
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
@@ -3246,7 +3246,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67f8e4d5b2998584ea9f01ebc6ca1a78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resolution: 256
+  _resolution: 1024
+  _chunkVariation: 0.1
   _plainRings:
     serializedVersion: 2
     key0: {r: 0, g: 0, b: 0, a: 1}
@@ -3535,7 +3536,7 @@ MonoBehaviour:
   _maxPlanetSize: 5
   _minMoonSize: 0.1
   _maxMoonSize: 0.2
-  _ringChance: 0.5
+  _ringChance: 1
   _detail: 6
   _planetGroundMaterial: {fileID: 2100000, guid: 2cc6927673615bb48b8a3f33637d4a14,
     type: 2}

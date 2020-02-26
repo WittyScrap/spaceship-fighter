@@ -12,6 +12,7 @@ public class ResourceManager : MonoBehaviour
     [Space, Header("Planetary Rings"), Space]
 
     [SerializeField] private int _resolution = 64;
+    [SerializeField, Range(0, 1)] private float _chunkVariation = .1f;
 
     [Space]
 
@@ -46,7 +47,7 @@ public class ResourceManager : MonoBehaviour
 
     private int Chunk()
     {
-        return Random.Range(1, 5);
+        return Random.Range(5, 500);
     }
 
     private Texture2D FromGradient(Gradient source, int horizontalResolution)
@@ -68,7 +69,13 @@ public class ResourceManager : MonoBehaviour
 				chunkValue = (chunkValue + 1) % source.colorKeys.Length;
 			}
 
+            float variation = (Random.value * 2 - 1) * _chunkVariation;
             Color value = source.colorKeys[chunkValue].color;
+
+            value.r += variation;
+            value.g += variation;
+            value.b += variation;
+
             value.a = (value.r + value.g + value.b) / 3;
 
 			o.SetPixel(i, 0, value);
