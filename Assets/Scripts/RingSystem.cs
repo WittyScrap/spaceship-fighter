@@ -8,7 +8,7 @@ using UnityEngine;
 /// What type of material an asteroid belt/ring
 /// is composed from.
 /// </summary>
-enum RockType
+public enum RockType
 { 
     RT_Rocky,
     RT_Icy,
@@ -44,6 +44,12 @@ public class RingSystem : MonoBehaviour
     /// The radius at which the planetary rings end (starting from the planet).
     /// </summary>
     public float OuterRadius { get => _outerRadius; set => _outerRadius = value; }
+
+
+    /// <summary>
+    /// The type of ring to render (rocky, icy, or metallic).
+    /// </summary>
+    public RockType RingType { get => _ringType; set => _ringType = value; }
 
 
     #region Private

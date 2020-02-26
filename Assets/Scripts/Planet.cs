@@ -393,6 +393,7 @@ public class Planet : MonoBehaviour
 			RingSystem rings = ringsObject.AddComponent<RingSystem>();
 			rings.InnerRadius = OuterRadius + Random.Range(1f, 2f);
 			rings.OuterRadius = rings.InnerRadius * Random.Range(1f, 1.5f);
+			rings.RingType = (RockType)Random.Range(0, 2);
 
 			await rings.Generate();
 		}
