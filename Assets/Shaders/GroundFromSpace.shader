@@ -30,13 +30,19 @@ Shader "Atmosphere/GroundFromSpace"
 		Tags { "RenderType"="Opaque" }
     	Pass 
     	{
-    		
+			Tags { "LightMode" = "ForwardBase" }
+
 			CGPROGRAM
 			#include "UnityCG.cginc"
 			#pragma target 3.0
 			#pragma vertex vert
 			#pragma fragment frag
-			
+
+			#pragma multi_compile_fwdbase
+
+			#include "AutoLight.cginc"
+
+
 			sampler2D _MainTex;
 			
 			uniform float3 v3Translate;		// The objects world pos
@@ -66,6 +72,7 @@ Shader "Atmosphere/GroundFromSpace"
     			float3 c0		: COLOR0;
     			float3 c1		: COLOR1;
 				float  lightVal : TEXCOORD4;
+				LIGHTING_COORDS(5, 6)
 			};
 			
 			float scale(float fCos)
@@ -135,6 +142,8 @@ Shader "Atmosphere/GroundFromSpace"
 				OUT.normalDir = normalize(mul(float4(v.normal, 0.0), unity_WorldToObject).xyz);
 				OUT.lightVal = max(0, dot(UnityObjectToWorldNormal(v.normal), _WorldSpaceLightPos0.xyz));
     			
+				TRANSFER_VERTEX_TO_FRAGMENT (OUT);
+
     			return OUT;
 			}
 
@@ -181,7 +190,7 @@ Shader "Atmosphere/GroundFromSpace"
 				specularReflection *= dot(normal, lightDir) >= 0.0;
 				float isWater = landValue < _SeaLevel;
 
-				return lerp(lerp(_LandColor, _Mountain, seedStarter), _SeaColor + specularReflection, isWater);
+				return lerp(lerp(_LandColor, _Mountain, seedStarter), _SeaColor + specularReflection, isWater) * LIGHT_ATTENUATION (IN);
 			}
 
 			int _DebugView;

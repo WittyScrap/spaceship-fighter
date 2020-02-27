@@ -24,6 +24,7 @@ Shader "Unlit/RingSystem"
 
             #include "AutoLight.cginc"
 
+
             struct v2f
             {
                 float4 pos          : SV_POSITION;
@@ -75,15 +76,15 @@ Shader "Unlit/RingSystem"
             {
                 float4 col          = tex2D (_MainTex, i.uv_MainTex);
                 float attenuation   = LIGHT_ATTENUATION (i);
-                float value         = col * attenuation;
+                float value         = col;
                 clip(value - .01f);
 
                 float specularValueUp = specular (i.normal, get_view(i.worldPos));
                 float specularValueDn = specular (-i.normal, get_view(i.worldPos));
 
-                float specularValue = (specularValueUp + specularValueDn) / 2;
+                float specularValue   = (specularValueUp + specularValueDn) / 2;
 
-                return lerp(greyscale(col), col, _Saturation) * _Saturation + specularValue;
+                return (lerp(greyscale(col), col, _Saturation) * _Saturation + specularValue) * attenuation;
             }
 
             ENDCG

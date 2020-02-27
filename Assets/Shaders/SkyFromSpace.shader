@@ -11,7 +11,6 @@ Shader "Atmosphere/SkyFromSpace"
 		//Tags { "RenderType"="Opaque" }
     	Pass 
     	{
-    		
 			Blend SrcAlpha OneMinusSrcAlpha 
 			ZWrite Off
 			Cull Front
