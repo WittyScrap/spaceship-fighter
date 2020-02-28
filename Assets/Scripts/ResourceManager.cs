@@ -72,11 +72,16 @@ public class ResourceManager : MonoBehaviour
             float variation = (Random.value * 2 - 1) * _chunkVariation;
             Color value = source.colorKeys[chunkValue].color;
 
-            value.r += variation;
-            value.g += variation;
-            value.b += variation;
+            float alpha = (value.r + value.g + value.b) / 3;
 
-            value.a = (value.r + value.g + value.b) / 3;
+            if (alpha > .01f)
+            {
+                value.r += variation;
+                value.g += variation;
+                value.b += variation;
+            }
+
+            value.a = alpha;
 
 			o.SetPixel(i, 0, value);
 		}

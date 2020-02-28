@@ -57,9 +57,14 @@ Shader "Unlit/RingSystem"
                 return normalize (_WorldSpaceCameraPos - worldPos.xyz);
             }
 
+            float light_dir()
+            {
+                return normalize (_WorldSpaceLightPos0.xyz);
+            }
+
             float specular(float3 normal, float3 view)
             {
-                float3 lightDir  = normalize (_WorldSpaceLightPos0.xyz);
+                float3 lightDir  = light_dir();
                 float3 reflected = reflect (-lightDir, normalize(normal));
                 float  ldv       = dot (reflected, view);
                 float  value     = max (0.f, ldv);
@@ -79,17 +84,29 @@ Shader "Unlit/RingSystem"
                 float value         = col;
                 clip(value - .01f);
 
-                float specularValueUp = specular (i.normal, get_view(i.worldPos));
-                float specularValueDn = specular (-i.normal, get_view(i.worldPos));
+                float specularValue   = specular (i.normal, get_view(i.worldPos));
+                float ndotl           = dot(i.normal, -light_dir());
 
-                float specularValue   = (specularValueUp + specularValueDn) / 2;
+                float4 saturated      = lerp(greyscale(col), col, _Saturation) * _Saturation;
+                float4 withSpecular   = saturated + specularValue;
+                float4 litOutput      = withSpecular * attenuation;
 
-                return (lerp(greyscale(col), col, _Saturation) * _Saturation + specularValue) * attenuation;
+                float3 L              = -light_dir();
+                float3 V              = get_view(i.worldPos);
+                float3 N              = i.normal;
+
+                float3 H              = normalize(L + N);
+                float VdotH           = pow(saturate(dot(V, -H)), _Shininess);
+                float3 I              = VdotH + unity_AmbientSky;
+
+                float4 unlitOutput    = float4(litOutput + I, litOutput.a) * attenuation * .15f;
+
+                return lerp(unlitOutput, litOutput, max(0.0f, ndotl));
             }
 
             ENDCG
         }
     }
-
+    
     Fallback "VertexLit"
 }

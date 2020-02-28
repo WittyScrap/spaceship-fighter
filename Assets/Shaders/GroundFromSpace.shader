@@ -190,7 +190,7 @@ Shader "Atmosphere/GroundFromSpace"
 				specularReflection *= dot(normal, lightDir) >= 0.0;
 				float isWater = landValue < _SeaLevel;
 
-				return lerp(lerp(_LandColor, _Mountain, seedStarter), _SeaColor + specularReflection, isWater) * LIGHT_ATTENUATION (IN);
+				return lerp(lerp(_LandColor, _Mountain, seedStarter), _SeaColor + specularReflection, isWater);
 			}
 
 			int _DebugView;
@@ -208,7 +208,7 @@ Shader "Atmosphere/GroundFromSpace"
 
 				tex *= final.b;
 
-				return half4(tex + final, 1.0);
+				return half4(tex + final, 1.0) * LIGHT_ATTENUATION (IN);
 			}
 			
 			ENDCG
